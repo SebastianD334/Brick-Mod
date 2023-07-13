@@ -1,0 +1,16 @@
+[
+{
+  "modid": "brickmod",
+  "name": "Brick Mod",
+  "description": "Adds more bricks.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["SebastianD334"],
+  "credits": "The Fabric Team for inspiring me",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
