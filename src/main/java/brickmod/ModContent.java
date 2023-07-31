@@ -14,58 +14,49 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static net.minecraftforge.fml.relauncher.Side.CLIENT;
 
 @Mod.EventBusSubscriber(modid = BrickMod.MODID)
 public class ModContent {
-	public static Block graniteBricks = block(new Block(Material.ROCK).setCreativeTab(CreativeTabs.BUILDING_BLOCKS), "granite_bricks");
-	public static ItemBlock graniteBricksItem = itemBlock(new ItemBlock(graniteBricks));
-	
-	public static Block brownBricks = block(new Block(Material.ROCK).setCreativeTab(CreativeTabs.BUILDING_BLOCKS), "brown_bricks");
-	public static ItemBlock brownBricksItem = itemBlock(new ItemBlock(brownBricks));
-	
-	public static Block lightBricks = block(new Block(Material.ROCK).setCreativeTab(CreativeTabs.BUILDING_BLOCKS), "light_bricks");
-	public static ItemBlock lightBricksItem = itemBlock(new ItemBlock(lightBricks));
-	
-	public static Block grayPaintedBricks = block(new Block(Material.ROCK).setCreativeTab(CreativeTabs.BUILDING_BLOCKS), "gray_painted_bricks");
-	public static ItemBlock grayPaintedBricksItem = itemBlock(new ItemBlock(grayPaintedBricks));
-	
-	public static Block magentaPaintedBricks = block(new Block(Material.ROCK).setCreativeTab(CreativeTabs.BUILDING_BLOCKS), "magenta_painted_bricks");
-	public static ItemBlock magentaPaintedBricksItem = itemBlock(new ItemBlock(magentaPaintedBricks));
-	
-	public static Block streetTiles = block(new Block(Material.ROCK).setCreativeTab(CreativeTabs.BUILDING_BLOCKS), "street_tiles");
-	public static ItemBlock streetTilesItem = itemBlock(new ItemBlock(streetTiles));
-	
-	public static Block andesiteTiles = block(new Block(Material.ROCK).setCreativeTab(CreativeTabs.BUILDING_BLOCKS), "andesite_tiles");
-	public static ItemBlock andesiteTilesItem = itemBlock(new ItemBlock(andesiteTiles));
-	
+	public static List<Block> blocks = new ArrayList<>();
+	public static List<Item> items = new ArrayList<>();
+
+	static {
+		addBricks("granite_bricks");
+		addBricks("brown_bricks");
+		addBricks("light_bricks");
+		addBricks("magenta_painted_bricks");
+		addBricks("gray_painted_bricks");
+		addBricks("street_tiles");
+		addBricks("andesite_tiles");
+	}
+
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event) {
-		BrickMod.logger.info("registering blocks");
-		event.getRegistry().register(graniteBricks);
-		event.getRegistry().register(brownBricks);
-		event.getRegistry().register(lightBricks);
-		event.getRegistry().register(grayPaintedBricks);
-		event.getRegistry().register(magentaPaintedBricks);
-		event.getRegistry().register(streetTiles);
-		event.getRegistry().register(andesiteTiles);
+		for (Block block : blocks) {
+			event.getRegistry().register(block);
+		}
 	}
-	
+
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event) {
-		event.getRegistry().register(graniteBricksItem);
-		event.getRegistry().register(brownBricksItem);
-		event.getRegistry().register(lightBricksItem);
-		event.getRegistry().register(grayPaintedBricksItem);
-		event.getRegistry().register(magentaPaintedBricksItem);
-		event.getRegistry().register(streetTilesItem);
-		event.getRegistry().register(andesiteTilesItem);
+		for (Item item : items) {
+			event.getRegistry().register(item);
+		}
 	}
-	
+
+	static void addBricks(String id) {
+		Block b = block(new Block(Material.ROCK).setCreativeTab(CreativeTabs.BUILDING_BLOCKS), id);
+		itemBlock(new ItemBlock(b));
+	}
 	
 	public static <B extends Block> B block(B block, String name) {
 		block.setRegistryName(new ResourceLocation(BrickMod.MODID, name));
-		block.setUnlocalizedName(BrickMod.MODID + "." + name);
+		block.setTranslationKey(BrickMod.MODID + "." + name);
+		blocks.add(block);
 		return block;
 	}
 	
@@ -73,7 +64,8 @@ public class ModContent {
 		ResourceLocation registryName = item.getBlock().getRegistryName();
 		assert registryName != null;
 		item.setRegistryName(registryName);
-		item.setUnlocalizedName(item.getBlock().getUnlocalizedName());
+		item.setTranslationKey(item.getBlock().getTranslationKey());
+		items.add(item);
 		return item;
 	}
 	
@@ -82,7 +74,6 @@ public class ModContent {
 	private static class Client {
 		@SubscribeEvent
 		static void registerModels(@SuppressWarnings("unused") ModelRegistryEvent event) {
-			Item[] items = { graniteBricksItem, brownBricksItem, lightBricksItem, grayPaintedBricksItem, magentaPaintedBricksItem, streetTilesItem, andesiteTilesItem };
 			for (Item item : items) {
 				ResourceLocation registryName = item.getRegistryName();
 				assert registryName != null;
