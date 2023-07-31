@@ -4,7 +4,7 @@
   "name": "Brick Mod",
   "description": "Adds more bricks.",
   "version": "${version}",
-  "mcversion": "${mcversion}",
+  "mcversion": "1.12.2",
   "url": "",
   "updateUrl": "",
   "authorList": ["SebastianD334"],
