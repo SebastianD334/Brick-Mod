@@ -32,6 +32,8 @@ public class ModContent {
 		addBricks("gray_painted_bricks");
 		addBricks("street_tiles");
 		addBricks("andesite_tiles");
+		addBricks("black_rectangular_shingles");
+		addBricks("dark_red_rectangular_shingles");
 	}
 
 	@SubscribeEvent
